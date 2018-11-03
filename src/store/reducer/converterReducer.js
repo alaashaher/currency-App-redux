@@ -1,27 +1,32 @@
-import {CONVERTER_ACTION,SELECT_TO_CURRENY,SELECT_FROM_CURRENY,AMOUNT_CURRENY} from '../actions/actionsType';
+import * as actions from '../actions/actionsType';
 
-const intialState=[{
+const intialState={
   result: null,
   fromCurrency: "USD",
   toCurrency: "GBP",
   amount: 1,
   currencies: [],
-}];
+};
 
 export default (state=intialState,action)=>{
   switch (action.type) {
-    case CONVERTER_ACTION:
+    case actions.CONVERTER_ACTION:
       return state;
       break;
-    case SELECT_TO_CURRENY:
+    case actions.SELECT_TO_CURRENY:
 
       break;
-    case SELECT_FROM_CURRENY:
+    case actions.SELECT_FROM_CURRENY:
 
       break;
-    case AMOUNT_CURRENY:
+    case actions.AMOUNT_CURRENY:
       return state;
       break;
+    case actions.SET_CURRENSIS:
+
+      return {...state,currencies:action.payload.currencies}
+      break;
+
 
     default:
       return state;
