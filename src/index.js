@@ -6,9 +6,11 @@ import {Provider,connect} from 'react-redux';
 
 
 ReactDOM.render(
-  <Provider store={store}>
+  <Provider store={store} >
+
     <App/>
-  <provider/>,document.getElementById('root')
+  </Provider>,
+  document.getElementById('root')
 );
 
 module.hot.accept();

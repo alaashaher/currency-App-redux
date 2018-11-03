@@ -1,62 +1,29 @@
 import React, { Component } from 'react';
 import axios from "axios";
-import './CurrencyContiener.css'
+import './CurrencyContiener.css';
+import store from '../store/store.js';
+import {Provider,connect} from 'react-redux';
 
-class CurrencyContiener extends Component {
-  componentDidMount() {
-      axios
-          .get("http://www.apilayer.net/api/live?access_key=8352f6b41464220b277f44d698ea6a34&format=1")
-          .then(response => {
-              const currency = [];
-              for (const key in response.data.quotes) {
-                const newKey = key.replace("USD","")
-                currency.push({[newKey]: response.data.quotes[key]})
-              }
-              this.setState({currencies:(currency)});
-          })
-          .catch(err => {
-              console.log("Opps", err.message);
-          });
-  }
-      render() {
+const CurrencyContiener = ({currency,onclick}) => {
           return (
               <div className="Converter">
                   <div className="Form">
-                      <input
-                          name="amount"
-                          type="text"
-                          value={this.state.amount}
-                          onChange={event =>
-                              this.setState({ amount: event.target.value })
-                          }
-                      />
-                      <select
-                          name="from"
-                          onChange={(event) => this.selectHandler(event)}
-                          value={this.state.fromCurrency}>
+                      <input name="amount" type="text" />
+                      <select name="from">
 
-                          {this.state.currencies.map(cur => (
-                              <option key={Object.keys(cur)[0]}>{Object.keys(cur)[0]}</option>
-                            ))}
+
                       </select>
 
-                      <select
-                          name="to"
-                          onChange={(event) => this.selectHandler(event)}
-                          value={this.state.toCurrency}>
+                      <select name="to">
 
-                          {this.state.currencies.map(cur => (
-                            <option key={Object.keys(cur)[0]}>{Object.keys(cur)[0]}</option>
-                          ))}
+
                       </select>
-                      <button onClick={this.convertHandler}>Convert</button>
+                      <button onClick={onclick}>Convert</button>
                   </div>
-                  {this.state.result &&
-                      <h3>{this.state.result}</h3>
-                  }
               </div>
           );
-      }
 }
 
-export default CurrencyContiener;
+const mapStateToProperty=state=>({currency:state.converterReducer});
+const mapDispatchToProp=dispatch=>({onclick:()=>dispatch({type:'CONVERTER_ACTION'})});
+export default connect(mapStateToProperty,mapDispatchToProp)(CurrencyContiener);

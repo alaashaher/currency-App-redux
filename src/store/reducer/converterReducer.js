@@ -1,47 +1,74 @@
-import {CONVERTER_ACTION,SELECT_CURRENY,AMONT_CURRENY} from '../actions/actionsType';
-const intialState={
+import {CONVERTER_ACTION,SELECT_TO_CURRENY,SELECT_FROM_CURRENY,AMOUNT_CURRENY} from '../actions/actionsType';
+
+const intialState=[{
   result: null,
   fromCurrency: "USD",
   toCurrency: "GBP",
   amount: 1,
   currencies: [],
-};
+}];
 
 export default (state=intialState,action)=>{
-  switch (action) {
+  switch (action.type) {
+    case CONVERTER_ACTION:
+      return state;
+      break;
+    case SELECT_TO_CURRENY:
 
+      break;
+    case SELECT_FROM_CURRENY:
+
+      break;
+    case AMOUNT_CURRENY:
+      return state;
+      break;
 
     default:
-    return state;
+      return state;
 
   }
 }
 
+// componentDidMount() {
+    // axios
+    //     .get("http://www.apilayer.net/api/live?access_key=8352f6b41464220b277f44d698ea6a34&format=1")
+    //     .then(response => {
+    //         const currency = ["USSA":5,"jj":4];
+    //         for (const key in response.data.quotes) {
+    //           const newKey = key.replace("USD","")
+    //           currency.push({[newKey]: response.data.quotes[key]})
+    //         }
+    //         this.setState({currencies:(currency)});
+    //     })
+    //     .catch(err => {
+    //         console.log("Opps", err.message);
+    //     });
+// }
 
-selectHandler = (event) => {
-  if (event.target.name === "from") {
-      this.setState({ fromCurrency: event.target.value })
-  }
-  if (event.target.name === "to") {
-      this.setState({ toCurrency: event.target.value })
-  }
-}
+// selectHandler = (event) => {
+//   if (event.target.name === "from") {
+//       this.setState({ fromCurrency: event.target.value })
+//   }
+//   if (event.target.name === "to") {
+//       this.setState({ toCurrency: event.target.value })
+//   }
+// }
 
-convertHandler = () => {
-  if (this.state.fromCurrency !== this.state.toCurrency) {
-
-    let  fromcurrency = this.state.currencies.filter(cur=>Object.keys(cur)[0]===this.state.fromCurrency);
-
-    let valueOfFromCurrency = fromcurrency[0][this.state.fromCurrency];
-
-    let  tocurrency = this.state.currencies.filter(cur=>Object.keys(cur)[0]===this.state.toCurrency);
-
-    let valueOfToCurrency = tocurrency[0][this.state.toCurrency];
-
-    const result = this.state.amount * (valueOfToCurrency/valueOfFromCurrency);
-    this.setState({ result: result.toFixed(5) })
-
-  } else {
-      this.setState({ result: "You can't convert the same currency!" })
-  }
-};
+// convertHandler = () => {
+//   if (this.state.fromCurrency !== this.state.toCurrency) {
+//
+//     let  fromcurrency = this.state.currencies.filter(cur=>Object.keys(cur)[0]===this.state.fromCurrency);
+//
+//     let valueOfFromCurrency = fromcurrency[0][this.state.fromCurrency];
+//
+//     let  tocurrency = this.state.currencies.filter(cur=>Object.keys(cur)[0]===this.state.toCurrency);
+//
+//     let valueOfToCurrency = tocurrency[0][this.state.toCurrency];
+//
+//     const result = this.state.amount * (valueOfToCurrency/valueOfFromCurrency);
+//     this.setState({ result: result.toFixed(5) })
+//
+//   } else {
+//       this.setState({ result: "You can't convert the same currency!" })
+//   }
+// };
