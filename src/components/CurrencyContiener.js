@@ -47,6 +47,7 @@ class CurrencyContiener extends Component {
 
         const amount = parseInt(this.props.amount);
         const result = amount * (valueOfToCurrency/valueOfFromCurrency);
+        console.log(result);
         this.props.cahngeCurrency({ result: result.toFixed(5) })
 
     } else {
@@ -82,8 +83,7 @@ class CurrencyContiener extends Component {
                       <button onClick={()=> this.convertCurrency()}>Convert</button>
 
                   </div>
-                  {this.props.result &&
-                      <div>{this.props.result}</div>}
+
               </div>
           )}
 }
