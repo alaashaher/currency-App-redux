@@ -15,37 +15,94 @@ class CurrencyContiener extends Component {
                 const newKey = key.replace("USD","")
                 currency.push({[newKey]: response.data.quotes[key]})
               }
-              // this.setState({currencies:(currency)});
               this.props.setCurrensis(currency);
           })
           .catch(err => {
               console.log("Opps", err.message);
           });
   }
+  onchange (value) {
+    if (value.length !== 0) {
+      this.props.setAmount(value);
+    }
+    else {
+      this.props.setAmount(" ");
+    }
+  }
+  selectFromCurreny (event)  {
+        this.props.setfromCurrency(event.target.value)
+  }
+  selectToCurreny (event)  {
+      this.props.settoCurrency(event.target.value)
+    }
 
+  convertCurrency  ()  {
+      if (this.props.fromCurrency !== this.props.toCurrency) {
+        let  fromcurrency = this.props.currencies.filter(cur=>Object.keys(cur)[0]===this.props.fromCurrency);
+        console.log(fromcurrency);
+        let valueOfFromCurrency = fromcurrency[0][this.props.fromCurrency];
+
+        let  tocurrency = this.props.currencies.filter(cur=>Object.keys(cur)[0]===this.props.toCurrency);
+        let valueOfToCurrency = tocurrency[0][this.props.toCurrency];
+
+        const amount = parseInt(this.props.amount);
+        const result = amount * (valueOfToCurrency/valueOfFromCurrency);
+        this.props.cahngeCurrency({ result: result.toFixed(5) })
+
+    } else {
+        this.props.result({ result: "You can't convert the same currency!" })
+    }
+};
   render(){
           return (
-
               <div className="Converter">
                   <div className="Form">
-                      <input name="amount" type="text" value={this.props.currency} />
-                      <select name="from">
-                        <option>
+                      <input name="amount"
+                             type="text" value={this.props.amount}
+                             onChange={event =>this.onchange(event.target.value)}
+                      />
 
-                        </option>
+                      <select name="from"
+                              onChange={(event) => this.selectFromCurreny(event)}
+                              value={this.props.fromCurrency}
+                      >
+                        {this.props.currencies.map(cur => (
+                            <option key={Object.keys(cur)[0]}>{Object.keys(cur)[0]}</option>
+                          ))}
                       </select>
 
-                      <select name="to">
-
-
+                      <select name="to"
+                              onChange={(event) => this.selectToCurreny(event)}
+                              value={this.props.toCurrency}
+                      >
+                        {this.props.currencies.map(cur => (
+                            <option key={Object.keys(cur)[0]}>{Object.keys(cur)[0]}</option>
+                          ))}
                       </select>
-                      <button onClick={this.props.onclick}>Convert</button>
+                      <button onClick={()=> this.convertCurrency()}>Convert</button>
+
                   </div>
+                  {this.props.result &&
+                      <div>{this.props.result}</div>}
               </div>
           )}
 }
 
-const mapStateToProperty=state=>{console.log(state);return ({currency:state.converter.amount})};
-const mapDispatchToProp=dispatch=>({onclick:()=>dispatch({type:actions.CONVERTER_ACTION})} ,
-    {setCurrensis:(currencies)=>dispatch({type:actions.SET_CURRENSIS,payload:{currencies}})});
+const mapStateToProperty=state=>({
+        amount:state.converter.amount,
+        currencies:state.converter.currencies ,
+        fromCurrency:state.converter.fromCurrency,
+        toCurrency:state.converter.toCurrency,
+        result:state.converter.result
+      });
+
+const mapDispatchToProp=dispatch=>({
+    cahngeCurrency:(result)=>dispatch({type:actions.CONVERTER_ACTION,payload:{result}}),
+    setCurrensis:(currencies)=>dispatch({type:actions.SET_CURRENCIES,payload:{currencies}}) ,
+    setAmount:(amount)=>dispatch({type:actions.CHANGE_AMOUNT,payload:{amount}}),
+    setfromCurrency:(currencyType)=>dispatch({type:actions.SELECT_FROM_CURRENY,payload:{fromCurrency:currencyType}}),
+    settoCurrency:(currencyType)=>dispatch({type:actions.SELECT_TO_CURRENY,payload:{toCurrency:currencyType}})
+
+  });
+
 export default connect(mapStateToProperty,mapDispatchToProp)(CurrencyContiener);
