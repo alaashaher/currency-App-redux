@@ -39,7 +39,6 @@ class CurrencyContiener extends Component {
   convertCurrency  ()  {
       if (this.props.fromCurrency !== this.props.toCurrency) {
         let  fromcurrency = this.props.currencies.filter(cur=>Object.keys(cur)[0]===this.props.fromCurrency);
-        console.log(fromcurrency);
         let valueOfFromCurrency = fromcurrency[0][this.props.fromCurrency];
 
         let  tocurrency = this.props.currencies.filter(cur=>Object.keys(cur)[0]===this.props.toCurrency);
