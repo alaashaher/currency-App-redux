@@ -10,9 +10,6 @@ const intialState={
 
 export default (state=intialState,action)=>{
   switch (action.type) {
-    case actions.CONVERTER_ACTION:
-      return {...state,result:action.payload.result};
-      break;
     case actions.SELECT_TO_CURRENY:
       return {...state,toCurrency:action.payload.toCurrency}
       break;
@@ -24,6 +21,9 @@ export default (state=intialState,action)=>{
       break;
     case actions.SET_CURRENCIES:
       return {...state,currencies:action.payload.currencies}
+      break;
+    case actions.SET_RESULT:
+      return {...state,result:action.payload.result}
       break;
     default:
       return state;

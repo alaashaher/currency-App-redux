@@ -47,12 +47,11 @@ class CurrencyContiener extends Component {
         const amount = parseInt(this.props.amount);
         const result = amount * (valueOfToCurrency/valueOfFromCurrency);
         console.log(result);
-        this.props.cahngeCurrency({ result: result.toFixed(5) })
-
+        this.props.setResult(result.toFixed(5));
     } else {
-        this.props.result({ result: "You can't convert the same currency!" })
-    }
-};
+        this.props.setResult("You can't convert the same currency!");
+}
+}
   render(){
           return (
               <div className="Converter">
@@ -83,6 +82,7 @@ class CurrencyContiener extends Component {
 
                   </div>
 
+                  <div><h3>{this.props.result}</h3></div>
               </div>
           )}
 }
@@ -96,12 +96,11 @@ const mapStateToProperty=state=>({
       });
 
 const mapDispatchToProp=dispatch=>({
-    cahngeCurrency:(result)=>dispatch({type:actions.CONVERTER_ACTION,payload:{result}}),
     setCurrensis:(currencies)=>dispatch({type:actions.SET_CURRENCIES,payload:{currencies}}) ,
     setAmount:(amount)=>dispatch({type:actions.CHANGE_AMOUNT,payload:{amount}}),
     setfromCurrency:(currencyType)=>dispatch({type:actions.SELECT_FROM_CURRENY,payload:{fromCurrency:currencyType}}),
-    settoCurrency:(currencyType)=>dispatch({type:actions.SELECT_TO_CURRENY,payload:{toCurrency:currencyType}})
-
+    settoCurrency:(currencyType)=>dispatch({type:actions.SELECT_TO_CURRENY,payload:{toCurrency:currencyType}}),
+    setResult:(result)=>dispatch({type:actions.SET_RESULT,payload:{result}})
   });
 
 export default connect(mapStateToProperty,mapDispatchToProp)(CurrencyContiener);
